@@ -43,7 +43,7 @@ module Spree
     # @note, this may return existing_address if there are no changes to value equality
     def self.immutable_merge(existing_address, new_attributes)
       # Ensure new_attributes is a sanitized hash
-      new_attributes = sanitize_for_mass_assignment(new_attributes)
+      # new_attributes = sanitize_for_mass_assignment(new_attributes)
 
       return factory(new_attributes) if existing_address.nil?
 
