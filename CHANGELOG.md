@@ -606,6 +606,30 @@ In this version we are beginning to deprecate this using the [`discard`](https:/
 
     [#1466](https://github.com/solidusio/solidus/pull/1466)
 
+*   The OrderUpdater (as used by `order.update!`) now fully updates taxes.
+
+    Previously there were two different ways taxes were calculated: a "full"
+    and a "quick" calculation. The full calculation was performed with
+    `order.create_tax_charge!` and would determine which tax rates applied and
+    add taxes to items. The "quick" calculation was performed as part of an
+    order update, and would only update the tax amounts on existing line items
+    with taxes.
+
+    Now `order.update!` will perform the full calculation every time.
+    `order.create_tax_charge!` is now deprecated and has been made equivalent
+    to `order.update!`.
+
+    [#1479](https://github.com/solidusio/solidus/pull/1479)
+
+*   `ItemAdjustments` has been merged into the `OrderUpdater`
+
+    The previous behaviour between these two classes was to iterate over each
+    item calculating promotions, taxes, and totals for each before moving on to
+    the next item. To better support external tax services, we now calculate
+    promotions for all items, followed by taxes for all items, etc.
+
+    [#1466](https://github.com/solidusio/solidus/pull/1466)
+
 *   Make frontend prices depend on `store.cart_tax_country_iso`
 
     Prices in the frontend now depend on `store.cart_tax_country_iso` instead of `Spree::Config.admin_vat_country_iso`.
@@ -653,6 +677,8 @@ In this version we are beginning to deprecate this using the [`discard`](https:/
     For now `PromotionAction` provides a default remove_from method, with a
     deprecation warning that subclasses should define their own remove_from
     method.
+
+    [#1451](https://github.com/solidusio/solidus/pull/1451)
 
     [#1451](https://github.com/solidusio/solidus/pull/1451)
 
